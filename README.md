@@ -3,8 +3,21 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](LICENSE)
 [![Status: Complete](https://img.shields.io/badge/Status-Complete-brightgreen.svg)]()
 [![Platform: Web](https://img.shields.io/badge/Platform-Web-blue.svg)]()
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live%20Demo-success.svg)](https://xxm1155.github.io/Codex/)
 
 一个系统、通俗易懂且功能完备的 **OpenAI Codex** 学习知识库与交互式 Web 系统。本知识库不仅梳理了官方核心最佳实践，还深入剖析了进阶架构与隐秘黑客特性（FIM 光标补全、语法约束、Self-Correction 闭环、安全防御等）。
+
+---
+
+## 🌐 在线直接访问地址 (GitHub Pages)
+
+本项目已配置 GitHub Pages 自动化部署，合并到主分支后可直接通过以下公网地址访问：
+
+🔗 **[https://xxm1155.github.io/Codex/](https://xxm1155.github.io/Codex/)**
+
+> **提示**：如果在仓库中尚未开启 GitHub Pages，只需在 GitHub 仓库页面进入 **Settings -> Pages**：
+> 1. **Source** 选择 **GitHub Actions**（推荐，仓库内已包含自动化工作流 `.github/workflows/deploy.yml`）。
+> 2. 或者 **Source** 选择 **Deploy from a branch**，分支选择 `main`，目录选择 `/ (root)`，点击保存即可在上述地址直接在线体验！
 
 ---
 
@@ -76,5 +89,5 @@ npx serve .
 
 运行端到端测试命令：
 ```bash
-node test/verify.js
+python3 test/verify.py
 ```

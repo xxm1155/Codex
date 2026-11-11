@@ -25,35 +25,42 @@
           <i class="fa-solid fa-terminal"></i>
         </div>
         <div>
-          <span class="brand-title">Codex Knowledge Base</span>
-          <span class="brand-tag">v2.0 官方指南</span>
+          <span class="brand-title" id="ui-brand-title">Codex Knowledge Base</span>
+          <span class="brand-tag" id="ui-brand-tag">v2.5 官方指南</span>
         </div>
       </a>
     </div>
 
-    <!-- 顶部功能 Tab 切换 -->
+    <!-- 顶部功能 Tab 切换与控制 -->
     <div class="header-actions">
       <button class="search-trigger" id="search-trigger-btn" title="全文搜索">
         <i class="fa-solid fa-magnifying-glass"></i>
-        <span>搜索知识库...</span>
+        <span id="ui-search-trigger-text">搜索知识库...</span>
         <span class="search-shortcut">⌘K</span>
       </button>
 
       <button class="nav-btn active" id="tab-articles-btn">
         <i class="fa-solid fa-book-open"></i>
-        <span>教程文章</span>
+        <span id="ui-tab-articles">教程文章</span>
       </button>
 
       <button class="nav-btn" id="tab-playground-btn">
         <i class="fa-solid fa-flask"></i>
-        <span>Prompt 试验工坊</span>
+        <span id="ui-tab-playground">Prompt 试验工坊</span>
       </button>
 
       <button class="nav-btn" id="tab-cheatsheet-btn">
         <i class="fa-solid fa-list-check"></i>
-        <span>速查手册</span>
+        <span id="ui-tab-cheatsheet">速查手册</span>
       </button>
 
+      <!-- 语言切换按钮 (CN / EN) -->
+      <button class="nav-btn lang-toggle-btn" id="lang-toggle-btn" title="Switch Language / 切换语言">
+        <i class="fa-solid fa-globe"></i>
+        <span id="lang-indicator">EN</span>
+      </button>
+
+      <!-- 深浅色主题切换 -->
       <button class="nav-btn btn-icon-only" id="theme-toggle-btn" title="切换深色/浅色模式">
         <i class="fa-solid fa-sun"></i>
       </button>
@@ -68,15 +75,15 @@
       <!-- 学习进度卡片 -->
       <div class="progress-card">
         <div class="progress-header">
-          <span><i class="fa-solid fa-chart-line"></i> 学习完成度</span>
-          <span id="read-progress-text">0 / 8 (0%)</span>
+          <span><i class="fa-solid fa-chart-line"></i> <span id="ui-progress-label">学习完成度</span></span>
+          <span id="read-progress-text">0 / 10 (0%)</span>
         </div>
         <div class="progress-bar-bg">
           <div class="progress-bar-fill" id="read-progress-bar"></div>
         </div>
       </div>
 
-      <div class="nav-section-title">知识库章节索引</div>
+      <div class="nav-section-title" id="ui-section-title">知识库章节索引</div>
       <nav id="sidebar-nav">
         <!-- 侧栏目录由 js/app.js 动态填充 -->
       </nav>
@@ -104,13 +111,13 @@
           <!-- 文章底部工具与前后翻页 -->
           <footer class="article-footer-nav">
             <button class="nav-btn" id="prev-article-btn">
-              <i class="fa-solid fa-arrow-left"></i> 上一篇
+              <i class="fa-solid fa-arrow-left"></i> <span id="prev-article-text">上一篇</span>
             </button>
             <button class="mark-read-btn" id="mark-read-btn">
-              <i class="fa-regular fa-circle-check"></i> 标记为已学完
+              <i class="fa-regular fa-circle-check"></i> <span id="mark-read-text">标记为已学完</span>
             </button>
             <button class="nav-btn" id="next-article-btn">
-              下一篇 <i class="fa-solid fa-arrow-right"></i>
+              <span id="next-article-text">下一篇</span> <i class="fa-solid fa-arrow-right"></i>
             </button>
           </footer>
         </article>
@@ -120,8 +127,8 @@
       <section class="view-panel" id="view-playground">
         <div class="playground-container">
           <div class="playground-intro">
-            <h2><i class="fa-solid fa-flask" style="color: #10b981;"></i> Codex Prompt 试验工坊</h2>
-            <p style="color: var(--text-secondary); margin-top: 0.25rem;">
+            <h2><i class="fa-solid fa-flask" style="color: #10b981;"></i> <span id="ui-pg-title">Codex Prompt 试验工坊</span></h2>
+            <p style="color: var(--text-secondary); margin-top: 0.25rem;" id="ui-pg-desc">
               实时调节 OpenAI 官方核心采样参数，试验 Few-Shot、类型契约、FIM 光标补全与安全审计 Prompt 的实战输出。
             </p>
           </div>
@@ -130,24 +137,24 @@
             <!-- 参数控制面板 -->
             <div class="control-card">
               <div class="form-group">
-                <label class="form-label" for="tpl-select">预设 Prompt 案例库</label>
+                <label class="form-label" for="tpl-select" id="ui-lbl-tpl">预设 Prompt 案例库</label>
                 <select class="form-select" id="tpl-select"></select>
               </div>
 
               <div class="form-group">
                 <label class="form-label" for="param-temperature">
-                  <span>Temperature (随机性)</span>
+                  <span id="ui-lbl-temp">Temperature (随机性)</span>
                   <span class="range-val" id="temperature-val">0.1</span>
                 </label>
                 <div class="range-slider-wrapper">
                   <input type="range" class="range-slider" id="param-temperature" min="0" max="1" step="0.05" value="0.1">
                 </div>
-                <small style="color: var(--text-muted); font-size: 0.75rem;">生产级代码推荐 0.0 ~ 0.2 之间</small>
+                <small style="color: var(--text-muted); font-size: 0.75rem;" id="ui-tip-temp">生产级代码推荐 0.0 ~ 0.2 之间</small>
               </div>
 
               <div class="form-group">
                 <label class="form-label" for="param-topp">
-                  <span>Top_p (核采样截断)</span>
+                  <span id="ui-lbl-topp">Top_p (核采样截断)</span>
                   <span class="range-val" id="topp-val">0.1</span>
                 </label>
                 <div class="range-slider-wrapper">
@@ -156,12 +163,12 @@
               </div>
 
               <div class="form-group">
-                <label class="form-label" for="param-stop">Stop Sequences (终止符)</label>
+                <label class="form-label" for="param-stop" id="ui-lbl-stop">Stop Sequences (终止符)</label>
                 <input type="text" class="form-input" id="param-stop" placeholder="\n\ndef , \nclass">
               </div>
 
               <div class="form-group">
-                <label class="form-label" for="system-role-input">System Role (专家设定)</label>
+                <label class="form-label" for="system-role-input" id="ui-lbl-system">System Role (专家设定)</label>
                 <textarea class="form-textarea" id="system-role-input" rows="3"></textarea>
               </div>
             </div>
@@ -171,10 +178,10 @@
               <div class="editor-panel">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                   <span style="font-weight: 600; font-size: 0.88rem; color: var(--text-secondary);">
-                    <i class="fa-solid fa-code"></i> Prompt 提词内容
+                    <i class="fa-solid fa-code"></i> <span id="ui-lbl-prompt">Prompt 提词内容</span>
                   </span>
                   <button class="nav-btn" id="copy-prompt-btn" style="padding: 0.2rem 0.5rem; font-size: 0.78rem;">
-                    <i class="fa-regular fa-copy"></i> 复制提词
+                    <i class="fa-regular fa-copy"></i> <span id="ui-btn-copyprompt">复制提词</span>
                   </button>
                 </div>
                 <textarea class="editor-textarea" id="user-prompt-input"></textarea>
@@ -182,17 +189,17 @@
 
               <div style="display: flex; justify-content: flex-end;">
                 <button class="run-prompt-btn" id="run-prompt-btn">
-                  <i class="fa-solid fa-play"></i> 执行推理生成 (Simulate Codex)
+                  <i class="fa-solid fa-play"></i> <span id="ui-btn-run">执行推理生成 (Simulate Codex)</span>
                 </button>
               </div>
 
               <div class="editor-panel">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                   <span style="font-weight: 600; font-size: 0.88rem; color: var(--accent-primary);">
-                    <i class="fa-solid fa-check-double"></i> Codex 推荐输出与解析
+                    <i class="fa-solid fa-check-double"></i> <span id="ui-lbl-output">Codex 推荐输出与解析</span>
                   </span>
                   <button class="nav-btn" id="copy-output-btn" style="padding: 0.2rem 0.5rem; font-size: 0.78rem;">
-                    <i class="fa-regular fa-copy"></i> 复制代码
+                    <i class="fa-regular fa-copy"></i> <span id="ui-btn-copyoutput">复制代码</span>
                   </button>
                 </div>
                 <div class="output-container">
@@ -207,8 +214,8 @@
       <!-- 视图 3：速查清单面板 (Cheat Sheet) -->
       <section class="view-panel" id="view-cheatsheet">
         <div>
-          <h2><i class="fa-solid fa-bolt" style="color: #f59e0b;"></i> Codex 工程师高频速查手册</h2>
-          <p style="color: var(--text-secondary); margin-top: 0.25rem;">
+          <h2><i class="fa-solid fa-bolt" style="color: #f59e0b;"></i> <span id="ui-cs-title">Codex 工程师高频速查手册</span></h2>
+          <p style="color: var(--text-secondary); margin-top: 0.25rem;" id="ui-cs-desc">
             浓缩超参数设置规则、Prompt 范式模板及调试闭环技巧，方便编码时随时对照查阅。
           </p>
           <div id="cheatsheet-container"></div>
@@ -228,7 +235,7 @@
       <ul class="search-results-list" id="search-results"></ul>
       <div class="search-empty-state" id="search-empty-state" style="display: none;">
         <i class="fa-regular fa-face-frown" style="font-size: 2rem; margin-bottom: 0.5rem; display: block;"></i>
-        未找到匹配的技巧或文章，换个关键词试试看？
+        <span id="ui-search-empty-text">未找到匹配的技巧或文章，换个关键词试试看？</span>
       </div>
     </div>
   </div>

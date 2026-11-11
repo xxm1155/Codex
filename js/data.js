@@ -1,32 +1,46 @@
 /**
- * OpenAI Codex 学习知识库数据中心
+ * OpenAI Codex 学习知识库数据中心 (中英双语版 / Dual-Language Edition)
  * 包含：体系化教程文章、官方最佳实践、进阶/隐藏特性、交互式 Prompt 模板库、速查清单
  */
 
 const CODEX_DATA = {
   metadata: {
-    title: "Codex 开发者学习知识库",
-    subtitle: "从入门到精通：官方技巧、进阶架构与隐秘特性全解析",
-    version: "2.0.0",
+    version: "2.5.0",
     lastUpdated: "2025",
-    author: "AI Engineer & Community"
+    author: "AI Engineer & Community",
+    zh: {
+      title: "Codex 开发者学习知识库",
+      subtitle: "从入门到精通：官方技巧、进阶架构与隐秘特性全解析",
+    },
+    en: {
+      title: "Codex Developer Knowledge Base",
+      subtitle: "From Zero to Hero: Official Best Practices, Advanced Architecture & Hidden Gems",
+    }
   },
 
   categories: [
     {
       id: "fundamentals",
-      title: "1. Codex 概览与核心原理",
-      description: "揭开代码大模型的神秘面纱，理解生成机理与上下文视窗",
       icon: "fa-compass",
-      badge: "基础必备",
+      zh: {
+        title: "1. Codex 概览与核心原理",
+        description: "揭开代码大模型的神秘面纱，理解生成机理与上下文视窗",
+        badge: "基础必备",
+      },
+      en: {
+        title: "1. Codex Overview & Core Mechanisms",
+        description: "Demystify Code LLMs: generation mechanisms, token prediction & context windows",
+        badge: "Fundamentals",
+      },
       articles: [
         {
           id: "what-is-codex",
-          title: "Codex 是什么：前世今生与模型演进",
           readingTime: "6 min",
-          difficulty: "入门",
-          summary: "从 GPT-3 到专用 Codex (code-cushman/davinci)，再到融入 GPT-4、o1、GPT-4o 与 Codex CLI 的全链路演化史。",
-          content: `
+          zh: {
+            title: "Codex 是什么：前世今生与模型演进",
+            difficulty: "入门",
+            summary: "从 GPT-3 到专用 Codex (code-cushman/davinci)，再到融入 GPT-4、o1、GPT-4o 与 Codex CLI 的全链路演化史。",
+            content: `
 ### 1. 什么是 OpenAI Codex？
 
 **OpenAI Codex** 是基于 GPT 架构衍生、专为**理解与生成计算机代码**而深度微调的预训练语言模型。它最初在包含数以千万计的 GitHub 公开代码库与技术文档上进行了海量参数的自监督预训练。
@@ -63,15 +77,60 @@ $$\\mathcal{P}(w_t \\mid w_1, w_2, ..., w_{t-1})$$
 - **缩进敏感性**：尤其在 Python / YAML 中，空格数目直接决定逻辑层级。Codex 对空白符（Indentation Tokens）有极敏感的概率分布。
 - **括号闭合与符号配对**：模型内部通过注意力机制维持跨越成百上千 Token 的符号引用链（如函数参数定义到函数体末尾的变量闭合）。
 - **上下文感知**：它并不只是看到当前光标，而是将光标上方的代码、光标下方的代码（FIM 模式）、相关文件定义通过上下文窗口协同计算。
-          `
+            `
+          },
+          en: {
+            title: "What is Codex: Evolution and Architecture",
+            difficulty: "Beginner",
+            summary: "The full evolution path from GPT-3 to specialized Codex (code-cushman/davinci), merging into GPT-4, o1, GPT-4o, and modern Codex CLI agents.",
+            content: `
+### 1. What is OpenAI Codex?
+
+**OpenAI Codex** is a deep-learning language model derived from the GPT architecture, specialized and fine-tuned for **understanding and generating computer code**. It was trained on tens of millions of public GitHub repositories alongside extensive technical documentation.
+
+#### Mindset Shift: From "Typing Assistant" to "Pair-Programming Agent"
+Beginners often view Codex merely as an "enhanced autocomplete tool." However, its fundamental capability is serving as a **bidirectional compiler between natural language intent and Abstract Syntax Trees (AST)**. It can:
+1. Translate **human natural language intents** into **executable machine code**.
+2. Reverse-engineer **legacy code** back into **concise technical specifications**.
+3. Perform zero-shot semantic migration (**transpilation**) across dozens of programming languages.
+
+---
+
+### 2. Evolution & Modern Implementations
+
+* **Phase 1: Dedicated Codex Models (2021~2022)**
+  - \`code-cushman-001\`: Ultra-low latency, tailored for inline completion.
+  - \`code-davinci-002\`: High-capacity foundation model capable of orchestrating complex logic, multi-function design, and scaffolding.
+* **Phase 2: Convergence with General Foundation Models (2023~2024)**
+  - OpenAI folded the "Chain of Code" reasoning learned from Codex back into flagship general models (GPT-4, GPT-4 Turbo), boosting mathematical, reasoning, and logical problem-solving capabilities across the board.
+* **Phase 3: Reasoning & Multimodal Autonomous Coding Agents (2024~Present)**
+  - **GPT-4o**: Near-instantaneous streaming with vision-to-code capabilities (generating responsive UI components from wireframe drawings).
+  - **OpenAI o1 / o3 series**: Deep reasoning tokens enabling autonomous solutions for LeetCode Hard and complex codebase refactoring.
+  - **Codex CLI / Agent Paradigm**: Evolving from passive prompt completions into full loop autonomous agents with terminal execution, tool use, testing, and self-repair capabilities.
+
+---
+
+### 3. Autoregressive Foundations of Code Generation
+
+Codex generates code via **Autoregressive Next-Token Prediction**:
+
+$$\\mathcal{P}(w_t \\mid w_1, w_2, ..., w_{t-1})$$
+
+Unlike natural language prose, code demands strict **syntactic precision** and **scope constraints**:
+- **Indentation sensitivity**: Crucial in languages like Python and YAML, where space count directly governs scoping hierarchy.
+- **Bracket and delimiter pairing**: Internal attention heads track bracket balance across thousands of tokens.
+- **Bi-directional contextual awareness**: Through FIM (Fill-In-The-Middle), Codex reasons over both the prefix before the cursor and the suffix after the cursor.
+            `
+          }
         },
         {
           id: "token-and-sampling",
-          title: "核心参数密码：Temperature、Top_P 与 Stop Sequences",
           readingTime: "8 min",
-          difficulty: "入门",
-          summary: "彻底搞懂为什么代码有时候会陷入死循环或乱生成？精确操控采样超参数与终止序列。",
-          content: `
+          zh: {
+            title: "核心参数密码：Temperature、Top_P 与 Stop Sequences",
+            difficulty: "入门",
+            summary: "彻底搞懂为什么代码有时候会陷入死循环或乱生成？精确操控采样超参数与终止序列。",
+            content: `
 ### 1. 代码生成的采样困境
 
 写自然语言故事需要天马行空的想象力，但**编写工业级代码绝大多数时候需要 100% 的确定性与标准规范**。如何让 Codex 在该严谨的时候严谨，在需要创造算法策略的时候富有创意？关键就在于控制采样参数！
@@ -103,24 +162,71 @@ $$\\mathcal{P}(w_t \\mid w_1, w_2, ..., w_{t-1})$$
    - \`stop: ["\`\`\`", "\\n\\n\\n"]\`
 3. **单行补全（Inline Completion）**：
    - \`stop: ["\\n"]\`：当只要补全当前这行代码时，用换行符截断能瞬间节省 90% 的延迟和 Token 开销！
-          `
+            `
+          },
+          en: {
+            title: "Sampling Hyperparameters: Temperature, Top_P & Stop Sequences",
+            difficulty: "Beginner",
+            summary: "Master decoding parameters: learn why code hallucinates or loops infinitely and how to control sampling and stop boundaries.",
+            content: `
+### 1. The Dilemma of Sampling in Code Generation
+
+While creative writing flourishes with high randomness, **industrial code demands near 100% determinism, idempotency, and canonical syntax**. Controlling hyperparameters unlocks both bulletproof reliability and creative algorithmic explorations.
+
+---
+
+### 2. Core Hyperparameter Cheat Sheet
+
+| Parameter | Recommended Range | Core Role in Code Scenarios | Best Use Case |
+| :--- | :--- | :--- | :--- |
+| **Temperature** | \`0.0 ~ 0.2\` | Greedy / low-entropy sampling. Selects the highest likelihood tokens for canonical patterns. | Production code, unit tests, bug fixing, SQL queries |
+| **Temperature** | \`0.5 ~ 0.8\` | Controlled diversity. Inspires distinct architectural approaches and naming options. | Brainstorming algorithms, comparative benchmarks |
+| **Top_p (Nucleus)** | \`0.05 ~ 0.2\` | Truncates low-probability tail tokens. Combined with low temp, eliminates invalid tokens. | Strict schema definitions, AST migrations |
+| **Stop Sequences** | String array | Halts model decoding immediately upon hitting specified delimiters. | Scope isolation, inline completion, token conservation |
+
+> 💡 **Official Rule of Thumb**: Tune either \`Temperature\` or \`Top_p\`, but not both aggressively at the same time!
+
+---
+
+### 3. Practical Stop Sequence Tactics
+
+Raw Codex API completion without delimiters often rambles into generating subsequent unrequested functions or test scripts.
+
+#### Recommended Stop Strategies:
+1. **Prevent Scope Overflow**:
+   - Python: \`stop: ["\\ndef ", "\\nclass ", "\\nif __name__"]\`
+   - JavaScript/TypeScript: \`stop: ["\\nfunction ", "\\nexport ", "\\nclass "]\`
+2. **Prevent Markdown Escaping**:
+   - \`stop: ["\`\`\`", "\\n\\n\\n"]\`
+3. **Low-Latency Inline Completion**:
+   - \`stop: ["\\n"]\`: Cuts completion cost and latency by up to 90% when completing a single statement!
+            `
+          }
         }
       ]
     },
     {
       id: "practical-prompts",
-      title: "2. 官方实战技巧与 Prompt 范式",
-      description: "遵循 OpenAI 官方推荐的黄金 Prompt 范式，掌握高效代码提示工程",
       icon: "fa-code",
-      badge: "核心技能",
+      zh: {
+        title: "2. 官方实战技巧与 Prompt 范式",
+        description: "遵循 OpenAI 官方推荐的黄金 Prompt 范式，掌握高效代码提示工程",
+        badge: "核心技能",
+      },
+      en: {
+        title: "2. Official Best Practices & Prompt Engineering",
+        description: "Master official prompting patterns, type contracts, few-shot examples, and TDD strategies",
+        badge: "Core Skills",
+      },
       articles: [
         {
           id: "official-prompting-principles",
-          title: "官方指导原则：清晰度胜过聪明（Clear is Better Than Clever）",
           readingTime: "7 min",
-          difficulty: "进阶",
-          summary: "官方 5 大提示词黄金法则：如何通过注释、类型标注、文档字符串让 Codex 给出完美实现。",
-          content: `
+          zh: {
+            title: "官方指导原则：清晰度胜过聪明（Clear is Better Than Clever）",
+            difficulty: "进阶",
+            summary: "官方 5 大提示词黄金法则：如何通过注释、类型标注、文档字符串让 Codex 给出完美实现。",
+            content: `
 ### 1. 官方黄金法则：给上下文注入精准锚点
 
 OpenAI 研究团队在 Codex 论文与最佳实践文档中反复强调：**Codex 就像一个刚刚加入团队、掌握全部开源库知识，但对你当前业务背景一无所知的实习生**。
@@ -167,18 +273,71 @@ def extract_valid_emails(raw_text: str) -> List[str]:
 - @fastify/jwt 8.x
 - 错误处理严格遵循 RFC 7807 规范（Problem Details）
 \`\`\`
-          `
+            `
+          },
+          en: {
+            title: "Official Principle: Clear is Better Than Clever",
+            difficulty: "Intermediate",
+            summary: "5 official rules: how type annotations, unambiguous docstrings, and runtime contracts guarantee flawless code.",
+            content: `
+### 1. Anchor Context with Unambiguous Contracts
+
+OpenAI researchers emphasize: **Treat Codex like a brilliant junior engineer who has read all public GitHub repositories, but knows nothing about your exact project requirements unless specified.**
+
+#### Rule #1: Supply Strict Type Annotations & I/O Doctests
+❌ **Vague Prompt**:
+\`\`\`python
+# extract emails
+def get_emails(text):
+\`\`\`
+
+✅ **Mastery Prompt (Strict Types, Specifications & Doctests)**:
+\`\`\`python
+from typing import List
+import re
+
+def extract_valid_emails(raw_text: str) -> List[str]:
+    """
+    Extracts all RFC 5322 compliant email addresses from unstructured text.
+
+    Requirements:
+    1. Strip trailing punctuation marks (commas, periods).
+    2. Deduplicate results and return sorted in ascending alphabetical order.
+    3. Case-insensitive; normalize to lowercase.
+
+    Examples:
+        >>> extract_valid_emails("Contact admin@example.com, and support@test.org.")
+        ['admin@example.com', 'support@test.org']
+    """
+\`\`\`
+*Providing precise input/output examples triggers pattern completion that drives accuracy to 99%.*
+
+---
+
+### 2. Pinpoint Dependency Versions Explicitly
+
+Avoid obsolete packages or deprecated APIs by declaring version constraints upfront:
+\`\`\`markdown
+Implement the authentication middleware using:
+- Node.js 20+ (ES Modules)
+- Fastify 4.x
+- @fastify/jwt 8.x
+- Error responses strictly compliant with RFC 7807 (Problem Details)
+\`\`\`
+            `
+          }
         },
         {
           id: "few-shot-coding",
-          title: "Few-Shot 示例法：驯服代码风格与边缘处理",
           readingTime: "6 min",
-          difficulty: "进阶",
-          summary: "当 Zero-shot 无法满足定制需求时，如何通过 1~2 个精挑细选的范例彻底锁定输出格式。",
-          content: `
+          zh: {
+            title: "Few-Shot 示例法：驯服代码风格与边缘处理",
+            difficulty: "进阶",
+            summary: "当 Zero-shot 无法满足定制需求时，如何通过 1~2 个精挑细选的范例彻底锁定输出格式。",
+            content: `
 ### 1. 为什么代码领域更需要 Few-Shot？
 
-自然语言对于“差不多”的回答有很高容忍度，但代码必须严丝合缝。例如在编写数据迁移脚本、自定义 ORM 转换器、或公司内部私有 DSL 时，通用知识无法奏效，**Few-Shot（少样本学习）就是终极武器**。
+在编写数据迁移脚本、自定义 ORM 转换器或内部私有 DSL 时，通用知识无法奏效，**Few-Shot（少样本学习）就是终极武器**。
 
 ---
 
@@ -193,35 +352,54 @@ FROM users
 WHERE age > 18 AND status = 'ACTIVE'
 LIMIT 10;
 
--- 示例 2：关联聚合 DSL 转换为标准 PostgreSQL
--- [INPUT DSL]: JOIN orders ON users.id == orders.user_id | GROUP BY users.id | AGG sum(orders.amount) as total_spent | HAVING total_spent > 1000
--- [OUTPUT SQL]:
-SELECT users.id, SUM(orders.amount) AS total_spent
-FROM users
-JOIN orders ON users.id = orders.user_id
-GROUP BY users.id
-HAVING SUM(orders.amount) > 1000;
-
 -- 任务：将以下 DSL 转换为标准 PostgreSQL
 -- [INPUT DSL]: FILTER products category IN ['Electronics', 'Books'] | SORT price DESC | SELECT title, price | LIMIT 5
 -- [OUTPUT SQL]:
 \`\`\`
+给出 1~2 个规范输入输出对，Codex 能瞬间掌握转换语法规律。
+            `
+          },
+          en: {
+            title: "Few-Shot Prompting: Taming Custom Syntax & Conventions",
+            difficulty: "Intermediate",
+            summary: "Lock down output conventions, private DSLs, and edge cases with 1-2 curated input-output exemplar pairs.",
+            content: `
+### 1. The Power of Few-Shot in Domain-Specific Languages (DSLs)
 
-通过给出 2 个高度对应的结构化映射，Codex 会准确捕捉语法规则与符号转换（如 \`==\` 到 \`=\`），从而一次性生成完美的 SQL。
-          `
+When dealing with proprietary internal libraries, schema migration scripts, or custom DSLs where zero-shot models lack pre-trained knowledge, **Few-Shot examples provide instant few-token in-context alignment**.
+
+---
+
+### 2. Practical Case: Converting Custom DSL to PostgreSQL
+
+\`\`\`sql
+-- Example 1: User activity query DSL to PostgreSQL
+-- [INPUT DSL]: FILTER users AGE > 18 AND status == 'ACTIVE' | SELECT id, name, created_at | LIMIT 10
+-- [OUTPUT SQL]:
+SELECT id, name, created_at
+FROM users
+WHERE age > 18 AND status = 'ACTIVE'
+LIMIT 10;
+
+-- Task: Convert the following DSL query
+-- [INPUT DSL]: FILTER products category IN ['Electronics', 'Books'] | SORT price DESC | SELECT title, price | LIMIT 5
+-- [OUTPUT SQL]:
+\`\`\`
+Providing paired demonstrations anchors parsing syntax reliably.
+            `
+          }
         },
         {
           id: "tdd-test-generation",
-          title: "测试驱动开发（TDD）与边界用例爆破",
           readingTime: "8 min",
-          difficulty: "进阶",
-          summary: "让 Codex 充当 QA 杀手：反向生成极端边界条件、Mock 数据、Fuzzing 模糊测试与压力测试用例。",
-          content: `
+          zh: {
+            title: "测试驱动开发（TDD）与边界用例爆破",
+            difficulty: "进阶",
+            summary: "让 Codex 充当 QA 杀手：反向生成极端边界条件、Mock 数据、Fuzzing 模糊测试与压力测试用例。",
+            content: `
 ### 1. TDD（测试先行）模式的威力
 
-大多数开发者让 Codex 先写实现，再写测试——这往往容易让测试与实现陷入同一种思维盲区（即代码中藏有的 Bug，测试也不会测出来）。
-
-**更高效的工程范式是：先让 Codex 写出覆盖所有极端情况的单元测试！**
+先写实现再写测试容易陷入相同的思维盲区。**更高效的工程范式是：先让 Codex 写出覆盖所有极端情况的单元测试！**
 
 ---
 
@@ -239,26 +417,59 @@ HAVING SUM(orders.amount) > 1000;
 # 4. 参数化测试（@pytest.mark.parametrize）：针对不同税率梯度的矩阵覆盖。
 # 5. 浮点数比较严格使用 pytest.approx 避免精度误差。
 \`\`\`
+            `
+          },
+          en: {
+            title: "Test-Driven Development (TDD) & Edge-Case Probing",
+            difficulty: "Intermediate",
+            summary: "Turn Codex into a relentless QA adversary: generate boundary fuzzing, mock fixtures, and parametrized matrices.",
+            content: `
+### 1. Why Test-First Prevents Confirmation Bias
 
-执行此 Prompt 产出的测试用例，能够逼迫后续编写的业务实现具备极强的鲁棒性（Robustness）。
-          `
+Writing code before tests allows implementation blind spots to carry over into the test suite. Generating unit tests first enforces rigorous contract specifications before writing a single line of business logic.
+
+---
+
+### 2. High-Coverage Pytest Prompt Template
+
+\`\`\`python
+# Target Interface Contract:
+# calculate_tax(income: float, country_code: str, deductions: dict) -> float
+
+# Write an exhaustive pytest suite covering:
+# 1. Happy Path: standard salary brackets and typical deductions.
+# 2. Boundary Cases: zero income, negative values, float precision overflows.
+# 3. Negative Cases: invalid country codes, malformed deductions dictionary.
+# 4. Parametrization: @pytest.mark.parametrize for full matrix verification.
+# 5. Floating point assertions strictly utilizing pytest.approx.
+\`\`\`
+            `
+          }
         }
       ]
     },
     {
       id: "advanced-hacks",
-      title: "3. 进阶核心与隐秘黑客技巧",
-      description: "探索 FIM (Fill-in-the-Middle)、Grammar 约束、Self-Correction 与深度 Agent 架构",
       icon: "fa-wand-magic-sparkles",
-      badge: "高阶黑客",
+      zh: {
+        title: "3. 进阶核心与隐秘黑客技巧",
+        description: "探索 FIM (Fill-in-the-Middle)、Grammar 约束、Self-Correction 与深度 Agent 架构",
+        badge: "高阶黑客",
+      },
+      en: {
+        title: "3. Advanced Architectures & Hidden Hacker Gems",
+        description: "Master Fill-in-the-Middle (FIM), grammar masking, self-correction loops, and coding agents",
+        badge: "Advanced",
+      },
       articles: [
         {
           id: "fim-fill-in-the-middle",
-          title: "FIM (Fill-in-the-Middle)：代码中间插入补全黑科技",
           readingTime: "9 min",
-          difficulty: "专家",
-          summary: "揭秘现代 IDE 智能插件（Copilot/Cursor）背后的底层机制：如何在光标两侧同时注入 Prefix 与 Suffix。",
-          content: `
+          zh: {
+            title: "FIM (Fill-in-the-Middle)：代码中间插入补全黑科技",
+            difficulty: "专家",
+            summary: "揭秘现代 IDE 智能插件（Copilot/Cursor）背后的底层机制：如何在光标两侧同时注入 Prefix 与 Suffix。",
+            content: `
 ### 1. 为什么传统从左到右补全在真实编码中不够用？
 
 传统生成模型是纯从左往右（Prefix-only）自回归生成的。但在日常编码中，光标往往在函数正中间，下方已经存在调用代码或闭合大括号。
@@ -270,56 +481,59 @@ HAVING SUM(orders.amount) > 1000;
 
 ### 2. FIM 架构原理与特殊 Token
 
-在支持 FIM 的模型中，上下文并不是单向拼装的，而是通过 3 个特殊的保留 Token 重组：
+在支持 FIM 的模型中，上下文通过 3 个特殊的保留 Token 重组：
 - \`<|fim_prefix|>\`：光标上方的代码（前缀）
 - \`<|fim_suffix|>\`：光标下方的代码（后缀）
 - \`<|fim_middle|>\`：模型需要填补的内容（中间代码）
 
 #### 训练重排方式（PSM 范式）：
-原始文档被切分为三部分：\`Prefix\`、\`Middle\`、\`Suffix\`。
-在送入模型前，重排为如下格式：
 \`\`\`text
 <|fim_prefix|>Prefix 内容<|fim_suffix|>Suffix 内容<|fim_middle|>
 \`\`\`
 模型的目标是预测接在 \`<|fim_middle|>\` 后面的代码，直到遇到结束符！
+            `
+          },
+          en: {
+            title: "FIM (Fill-in-the-Middle): The Cursor Completion Secret",
+            difficulty: "Expert",
+            summary: "Uncover the engine behind GitHub Copilot & Cursor: how bidirectional Prefix and Suffix injection enables surgical inline edits.",
+            content: `
+### 1. The Limitation of Unidirectional Left-to-Right Generation
+
+Standard language generation is causal: it predicts token $t$ given tokens $1$ to $t-1$. In real-world editing, the cursor sits between existing code lines, with valid closing brackets and subsequent calls already present below.
+Without context below the cursor, models frequently re-declare existing variables or create mismatched closing tags.
+
+OpenAI solved this by training Codex with **Fill-in-the-Middle (FIM)** capabilities.
 
 ---
 
-### 3. FIM 实战 API 调用示意
+### 2. FIM Architecture & Reserved Tokens
 
-\`\`\`python
-# OpenAI / Codex 底层原生 FIM 调用示例
-import openai
+The prompt structure re-assembles the context using 3 reserved tokens:
+- \`<|fim_prefix|>\`: Code before the cursor
+- \`<|fim_suffix|>\`: Code after the cursor
+- \`<|fim_middle|>\`: Target slot to be generated
 
-response = openai.Completion.create(
-    model="code-davinci-002",  # 或支持 FIM 的现代专用模型
-    prompt="<|fim_prefix|>def quicksort(arr):\\n    if len(arr) <= 1:\\n        return arr\\n<|fim_suffix|>\\n    return quicksort(left) + middle + quicksort(right)<|fim_middle|>",
-    max_tokens=60,
-    temperature=0,
-    stop=["<|fim_suffix|>", "<|endoftext|>"]
-)
-
-print(response.choices[0].text)
-# 输出完美的分割逻辑：
-#     pivot = arr[len(arr) // 2]
-#     left = [x for x in arr if x < pivot]
-#     middle = [x for x in arr if x == pivot]
-#     right = [x for x in arr if x > pivot]
+#### Prefix-Suffix-Middle (PSM) Layout:
+\`\`\`text
+<|fim_prefix|>Prefix Content<|fim_suffix|>Suffix Content<|fim_middle|>
 \`\`\`
-这就是光标处自动补齐上下文的最优解！
-          `
+The model attends simultaneously to both the header and footer, generating code seamlessly connecting the two halves!
+            `
+          }
         },
         {
           id: "grammar-constrained-generation",
-          title: "语法约束与结构化输出（BNF / JSON Schema）",
           readingTime: "7 min",
-          difficulty: "专家",
-          summary: "如何让 Codex 的输出 100% 遵守编译期语法树？解析 Logits Masking 与强制 Schema 校验。",
-          content: `
+          zh: {
+            title: "语法约束与结构化输出（BNF / JSON Schema）",
+            difficulty: "专家",
+            summary: "如何让 Codex 的输出 100% 遵守编译期语法树？解析 Logits Masking 与强制 Schema 校验。",
+            content: `
 ### 1. 痛点：大模型的「幻觉标点」与结构损坏
 
 即使指令再详尽，大模型有时候仍会漏掉一个引号、多生成一个逗号导致 \`JSON.parse()\` 崩溃。
-在工业界代码管道中，我们往往需要 Codex 产出绝对可靠的结构化 AST、配置或数据库迁移语句。
+在工业界代码管道中，我们需要 Codex 产出绝对可靠的结构化 AST、配置或数据库迁移语句。
 
 ---
 
@@ -327,80 +541,49 @@ print(response.choices[0].text)
 
 现代代码生成系统在解码每个 Token 时，引入了**语法状态机（Parser State Machine / Pushdown Automaton）**：
 1. **词法分析**：当前已经生成了 \`{"name": "foo", "age":\`。
-2. **状态判定**：根据 JSON 语法规范，此时紧随其后的下一个合法 Token 只能是数字、或开括号，绝不能是逗号或对象闭合大括号。
+2. **状态判定**：根据 JSON 语法规范，紧随其后的合法 Token 只能是数字或对象开括号。
 3. **Logits 屏蔽（Logits Masking）**：将所有非法 Token 的输出概率（Logits）硬编码置为 $-\\infty$。
 4. **结果**：从数学原理上彻底消灭语法错误可能！
+            `
+          },
+          en: {
+            title: "Grammar-Constrained Decoding & Structured Outputs",
+            difficulty: "Expert",
+            summary: "Guarantee 100% syntactically valid JSON and AST outputs using state-machine logit masking and schemas.",
+            content: `
+### 1. The Hazard of Malformed Parsing
+
+Even slight hallucinations (e.g. trailing commas, unescaped quotes) trigger fatal exceptions in downstream automated pipelines.
 
 ---
 
-### 3. 官方推荐实践：基于 TypeScript Type 定义与 JSON Schema
+### 2. Solution: Pushdown Automata Logits Masking
 
-\`\`\`typescript
-// 给模型提供确定性的输出规范
-export interface MigrationPlan {
-  version: string;
-  rollbackStrategy: "transactional" | "manual";
-  steps: Array<{
-    order: number;
-    description: string;
-    upSql: string;
-    downSql: string;
-    estimatedExecutionTimeMs: number;
-  }>;
-}
-\`\`\`
-在 System Prompt 中注入上述接口，并开启 \`response_format: { type: "json_object" }\`，Codex 产出的 JSON 将 100% 完美对齐数据结构。
-          `
+Structured generation engines enforce syntax at decoding time:
+1. **Parser State**: Tracking the AST / grammar state at step $t$.
+2. **Grammar Filter**: Determining the subset of syntactically legal next tokens.
+3. **Logits Masking**: Setting logits of invalid tokens to $-\\infty$.
+4. **Outcome**: Mathematically impossible to produce invalid syntax!
+            `
+          }
         },
         {
           id: "self-correcting-agent-loop",
-          title: "Self-Correction 自我修复循环与 ReAct 代码智能体",
           readingTime: "10 min",
-          difficulty: "专家",
-          summary: "从单次回答到工程智能体：打造具备 执行 -> 捕获 Traceback -> 自省修复 闭环的自动化体系。",
-          content: `
+          zh: {
+            title: "Self-Correction 自我修复循环与 ReAct 代码智能体",
+            difficulty: "专家",
+            summary: "从单次回答到工程智能体：打造具备 执行 -> 捕获 Traceback -> 自省修复 闭环的自动化体系。",
+            content: `
 ### 1. 为什么“一次生成”行不通？
 
-人类资深程序员也极少能一次性写出完全无 Bug 的大型复杂系统。编程本质上是一个**「假设 -> 编码 -> 运行 -> 观察报错（Traceback） -> 定位根因 -> 修改重试」**的迭代反馈闭环。
+编程本质上是一个**「假设 -> 编码 -> 运行 -> 观察报错（Traceback） -> 定位根因 -> 修改重试」**的迭代反馈闭环。
 
 **真正的 Codex 高手绝不会只用单轮对话，而是构建自动化的闭环 Agent！**
 
 ---
 
-### 2. 自愈智能体（Self-Healing Loop）的标准拓扑
-
-\`\`\`
-      [用户需求 / Issue]
-              │
-              ▼
-    ┌───────────────────┐
-    │  Codex 编写初始代码 │
-    └─────────┬─────────┘
-              │
-              ▼
-    ┌───────────────────┐
-    │  沙盒环境执行测试  │
-    └─────────┬─────────┘
-              │
-       通过？ ├─────────────► [成功交付 / Commit]
-              │ 失败 (Exception / Error)
-              ▼
-    ┌───────────────────┐
-    │ 捕获标准错误输出   │
-    │  (STDOUT/STDERR)  │
-    └─────────┬─────────┘
-              │
-              ▼
-    ┌───────────────────┐
-    │ 构造自省诊断 Prompt │ ───┐
-    └───────────────────┘    │ 反馈驱动
-              ▲              │
-              └──────────────┘
-\`\`\`
-
----
-
-### 3. 核心 Prompt 模板：错误回传诊断模式
+### 2. 核心 Prompt 模板：错误回传诊断模式
 
 \`\`\`markdown
 你之前编写的代码在沙盒自动化测试中遇到以下异常：
@@ -418,26 +601,66 @@ TypeError: unsupported operand type(s) for -: 'Decimal' and 'float'
 2. 不要全量重写无关代码，给出针对该 Bug 的最小化补丁（Diff 或修复后的函数）。
 3. 解释为何引入 Decimal 与 float 混用会导致精度隐患。
 \`\`\`
+            `
+          },
+          en: {
+            title: "Self-Correction Loops & Autonomous ReAct Coding Agents",
+            difficulty: "Expert",
+            summary: "Build an automated closed loop: Execute -> Capture Traceback -> Introspect -> Apply Minimal Patch.",
+            content: `
+### 1. Beyond Single-Turn Generations
 
-给模型提供完整的 Traceback，Codex 解决 Bug 的命中率可以从 35% 跃升至 88% 以上！
-          `
+Professional software engineering is inherently an iterative feedback loop: hypothesis -> implement -> execute -> inspect traceback -> remediate.
+
+Codex excels when integrated into closed-loop agent topologies equipped with sandboxed terminals.
+
+---
+
+### 2. Traceback Remediation Prompt Pattern
+
+\`\`\`markdown
+The previously generated code failed in automated sandbox testing:
+
+[Environment]: Python 3.12, Linux x86_64
+[Command]: pytest tests/test_payment.py
+[Traceback]:
+Traceback (most recent call last):
+  File "payment.py", line 42, in process_refund
+    balance = account.get_balance() - amount
+TypeError: unsupported operand type(s) for -: 'Decimal' and 'float'
+
+[Instructions]:
+1. Identify the root cause behind the type mismatch.
+2. Provide a minimal surgical patch without rewriting unrelated code.
+3. Detail why Decimal/float arithmetic causes precision loss in monetary flows.
+\`\`\`
+            `
+          }
         }
       ]
     },
     {
       id: "pitfalls-and-security",
-      title: "4. 陷阱、安全漏洞与生产防御",
-      description: "避开幻觉库、SQL 注入、死循环与上下文溢出等致命陷阱",
       icon: "fa-shield-halved",
-      badge: "工程避坑",
+      zh: {
+        title: "4. 陷阱、安全漏洞与生产防御",
+        description: "避开幻觉库、SQL 注入、死循环与上下文溢出等致命陷阱",
+        badge: "工程避坑",
+      },
+      en: {
+        title: "4. Pitfalls, Security Vulnerabilities & Hardening",
+        description: "Defend against package hallucination supply-chain attacks, SQL injections, and unsafe deserialization",
+        badge: "Security",
+      },
       articles: [
         {
           id: "hallucinated-packages",
-          title: "幻觉包与安全供应链投毒（Package Hallucination）",
           readingTime: "6 min",
-          difficulty: "必看",
-          summary: "小心幽灵依赖！黑客如何利用 Codex 随机发明的库名实施钓鱼，以及企业级防御手段。",
-          content: `
+          zh: {
+            title: "幻觉包与安全供应链投毒（Package Hallucination）",
+            difficulty: "必看",
+            summary: "小心幽灵依赖！黑客如何利用 Codex 随机发明的库名实施钓鱼，以及企业级防御手段。",
+            content: `
 ### 1. 致命现象：幽灵包（Hallucinated Packages）
 
 在需要某个冷门功能时，大模型经常会自信满满地在代码开头写上：
@@ -445,11 +668,7 @@ TypeError: unsupported operand type(s) for -: 'Decimal' and 'float'
 import advanced_pdf_streamer  # 实际上 PyPI 上根本没有这个官方库！
 \`\`\`
 
-黑客抓住了大模型的这种统计规律：
-1. 收集大模型常给出的“幻觉包名”。
-2. 黑客抢先在 PyPI、npm 注册该名称的同名包。
-3. 在包中埋入恶意 Payload（窃取环境变量、AWS Keys、反弹 Shell）。
-4. 程序员复制 Codex 生成的代码并执行 \`pip install advanced_pdf_streamer\` —— 供应链攻击瞬间达成！
+黑客抓住了大模型的这种统计规律：抢先在 PyPI、npm 注册该名称的同名包，并在包中埋入恶意 Payload。程序员一旦执行 \`pip install\`，供应链攻击瞬间达成！
 
 ---
 
@@ -457,41 +676,86 @@ import advanced_pdf_streamer  # 实际上 PyPI 上根本没有这个官方库！
 
 1. **白名单校验与私有源镜像**：在 CI/CD 中配置安全审计工具（如 Socket.dev, Snyk, pip-audit）。
 2. **锁文件（Lockfiles）强制**：永远提交 \`package-lock.json\` 或 \`poetry.lock\`，禁止在生产构建中执行自由版本拉取。
-3. **Prompt 防御指令**：
-   \`\`\`markdown
-   重要约束：仅允许使用 Python 3.12 标准库或经过广泛验证的主流库（如 requests, pydantic, numpy）。
-   严禁引用任何冷门或未经验证的第三方包名！如果需要特殊算法，请纯手写实现。
-   \`\`\`
-          `
+            `
+          },
+          en: {
+            title: "Package Hallucination & Supply Chain Poisoning",
+            difficulty: "Must Read",
+            summary: "Beware of phantom dependencies: how adversaries squat LLM-invented package names and how to defend pipelines.",
+            content: `
+### 1. The Threat: Phantom Dependencies
+
+When asked for esoteric utilities, models occasionally invent plausible-sounding packages:
+\`\`\`python
+import advanced_pdf_streamer  # Does not exist on official PyPI!
+\`\`\`
+
+Adversaries scan common hallucination patterns, register the packages on registries (PyPI, npm), and embed malicious payloads. Unsuspecting developers copy-pasting code unwittingly execute supply-chain exploits!
+
+---
+
+### 2. Production Defensive Posture
+
+1. **Registry Auditing**: Integrate tools like Snyk or pip-audit in CI/CD.
+2. **Strict Lockfiles**: Always enforce \`poetry.lock\` / \`package-lock.json\`.
+            `
+          }
         },
         {
           id: "security-patterns",
-          title: "安全编码规范：防止把漏洞写进代码",
           readingTime: "7 min",
-          difficulty: "必看",
-          summary: "Codex 很容易继承开源代码中的不良习惯。如何强制其遵循 OWASP Top 10 安全规范。",
-          content: `
+          zh: {
+            title: "安全编码规范：防止把漏洞写进代码",
+            difficulty: "必看",
+            summary: "Codex 很容易继承开源代码中的不良习惯。如何强制其遵循 OWASP Top 10 安全规范。",
+            content: `
 ### 1. 常见的 AI 生成漏洞
 
-由于训练集中包含了大量历史旧代码和新手教程，Codex 很容易默认生成：
-- **SQL 注入**：使用 f-string 或字符串拼接 SQL（\`f"SELECT * FROM users WHERE name = '{name}'"\`）。
+Codex 很容易默认生成：
+- **SQL 注入**：使用字符串拼接 SQL。
 - **硬编码秘钥**：\`api_key = "sk-..."\`。
-- **ReDoS（正则表达式拒绝服务）**：容易发生灾难性回溯的贪婪正则。
-- **反序列化漏洞**：随意使用 \`pickle.loads()\` 处理不可信输入。
+- **ReDoS（正则表达式拒绝服务）**。
+- **反序列化漏洞**：随意使用 \`pickle.loads()\`。
 
 ---
 
 ### 2. 官方防护提示词框架（Security-First Prompt）
 
 \`\`\`markdown
-你是一名通过 CISSP 认证的资深网络安全与代码审计专家。
-在为我编写该功能时，请严格遵守以下安全基线：
-1. 【参数化查询】：所有数据库操作必须强制使用 ORM 参数化绑定（Parameterized Queries），禁止任何字符串拼接。
-2. 【秘密管理】：所有 API Token、数据库密码必须通过环境变量提取，并提供 .env.example 模板说明。
-3. 【输入验证】：对所有外部用户输入进行严格边界与类型白名单清洗（推荐使用 Pydantic v2 / Zod）。
-4. 【安全反序列化】：禁止使用 Python pickle，统一采用安全的 json.loads() 并对 Schema 进行校验。
+你是一名资深网络安全与代码审计专家。
+在编写该功能时，请严格遵守以下安全基线：
+1. 【参数化查询】：所有数据库操作必须强制使用 ORM 参数化绑定，禁止任何字符串拼接。
+2. 【秘密管理】：所有 API Token、数据库密码必须通过环境变量提取。
+3. 【输入验证】：对所有外部输入进行严格白名单清洗（推荐 Pydantic v2 / Zod）。
 \`\`\`
-          `
+            `
+          },
+          en: {
+            title: "Secure Coding Patterns: OWASP Top 10 Guardrails",
+            difficulty: "Must Read",
+            summary: "Codex inherits legacy flaws from training data. Enforce security guardrails against injections and deserialization.",
+            content: `
+### 1. Common Generative Vulnerabilities
+
+Without constraints, models often default to unsafe idioms:
+- **SQL Injections**: Raw string formatting in queries.
+- **Hardcoded Secrets**: Embedded credentials.
+- **ReDoS**: Catastrophic backtracking in regexes.
+- **Unsafe Deserialization**: Naive use of \`pickle.loads()\`.
+
+---
+
+### 2. Security-First System Prompt Framework
+
+\`\`\`markdown
+You are a senior Application Security (AppSec) architect.
+Strictly adhere to the following baseline:
+1. [Parameterized Queries]: Mandate ORM parameterized bindings; forbid string formatting.
+2. [Secrets Hygiene]: Load tokens and passwords strictly via environment variables.
+3. [Input Validation]: Enforce schema validation (Zod / Pydantic v2) on all inbound payloads.
+\`\`\`
+            `
+          }
         }
       ]
     }
@@ -501,9 +765,16 @@ import advanced_pdf_streamer  # 实际上 PyPI 上根本没有这个官方库！
   interactiveTemplates: [
     {
       id: "tpl-1",
-      name: "函数编写与类型契约（Type Contract）",
-      category: "代码生成",
-      description: "生成高健壮性、类型完备、带 Docstring 的工业级函数",
+      zh: {
+        name: "函数编写与类型契约（Type Contract）",
+        category: "代码生成",
+        description: "生成高健壮性、类型完备、带 Docstring 的工业级函数",
+      },
+      en: {
+        name: "Function Contract & Type Hints",
+        category: "Code Gen",
+        description: "Generate robust, strongly typed, production-grade functions with docstrings",
+      },
       systemRole: "You are an expert Python staff engineer. Write production-ready, highly readable code.",
       temperature: 0.1,
       topP: 0.1,
@@ -551,9 +822,16 @@ import advanced_pdf_streamer  # 实际上 PyPI 上根本没有这个官方库！
     },
     {
       id: "tpl-2",
-      name: "复杂算法与性能优化（Time Complexity）",
-      category: "算法优化",
-      description: "将 O(N^2) 暴力解法重构为 O(N log N) 或 O(N) 的最优算法",
+      zh: {
+        name: "复杂算法与性能优化（Time Complexity）",
+        category: "算法优化",
+        description: "将 O(N^2) 暴力解法重构为 O(N) 的最优算法",
+      },
+      en: {
+        name: "Algorithm Optimization & Complexity",
+        category: "Performance",
+        description: "Refactor O(N^2) brute force logic into optimal O(N) hash-based execution",
+      },
       systemRole: "You are an algorithms researcher specializing in competitive programming and systems optimization.",
       temperature: 0.2,
       topP: 0.15,
@@ -612,9 +890,16 @@ function aggregateEventsOptimized(events: readonly UserEvent[]): UserEvent[] {
     },
     {
       id: "tpl-3",
-      name: "FIM (Fill-in-the-Middle) 光标补全模拟",
-      category: "进阶特性",
-      description: "模拟 Prefix + Suffix 上下文环境，精确补齐中间缺失逻辑",
+      zh: {
+        name: "FIM (Fill-in-the-Middle) 光标补全模拟",
+        category: "进阶特性",
+        description: "模拟 Prefix + Suffix 上下文环境，精确补齐中间缺失逻辑",
+      },
+      en: {
+        name: "FIM (Fill-in-the-Middle) Completion",
+        category: "Advanced",
+        description: "Simulate dual Prefix + Suffix context to synthesize the exact middle logic",
+      },
       systemRole: "You are an ultra-low latency code completion engine using FIM tokens.",
       temperature: 0.0,
       topP: 0.1,
@@ -665,9 +950,16 @@ class LRUCache:
     },
     {
       id: "tpl-4",
-      name: "SQL 注入与漏洞加固（安全审计）",
-      category: "安全与质量",
-      description: "将充满隐患的拼接 SQL 重构为安全防御型 Prepared Statement",
+      zh: {
+        name: "SQL 注入与漏洞加固（安全审计）",
+        category: "安全与质量",
+        description: "将充满隐患的拼接 SQL 重构为安全防御型 Prepared Statement",
+      },
+      en: {
+        name: "SQL Injection Remediation (AppSec)",
+        category: "Security",
+        description: "Refactor dangerous concatenated queries into hardened parameterized statements",
+      },
       systemRole: "You are a senior Application Security (AppSec) architect.",
       temperature: 0.1,
       topP: 0.1,
@@ -691,13 +983,11 @@ app.get('/search-orders', async (req, res) => {
 
 // 请指出存在的安全隐患，并使用 node-postgres (pg) 参数化查询重写该路由，支持动态筛选。`,
       simulatedOutput: `/**
- * 安全审计报告：
- * 1. 严重 SQL 注入漏洞：直接将 customerId、status、minAmount 拼接进 SQL，
- *    攻击者可通过传参 \`' OR '1'='1\` 或 \`'; DROP TABLE orders;--\` 拖库或破坏数据。
- * 2. minAmount 缺少数值类型校验，若传入恶意 payload 会破坏查询语法。
+ * 安全审计报告 / Security Audit:
+ * 1. SQL Injection Vulnerability: direct concatenation of query strings.
+ * 2. Missing numeric type sanitization on minAmount.
  */
 
-// 加固后的生产级安全实现：
 app.get('/search-orders', async (req, res) => {
   try {
     const { customerId, status, minAmount } = req.query;
@@ -741,37 +1031,67 @@ app.get('/search-orders', async (req, res) => {
   ],
 
   // 终极 Cheat Sheet 速查表
-  cheatSheet: [
-    {
-      category: "超参数调优秘籍",
-      items: [
-        { key: "Temperature = 0.0 ~ 0.1", desc: "生产代码生成、修复 Bug、单测用例。绝对确定性与最高准确率。" },
-        { key: "Temperature = 0.6 ~ 0.8", desc: "架构选型头脑风暴、多种算法方案探讨、寻找替代方案。" },
-        { key: "Top_p = 0.1", desc: "极致收缩采样核，彻底消除罕见无效语法 Token。" },
-        { key: "Stop: [\"\\n\\n\", \"def \", \"class \"]", desc: "精准阻断模型多余发挥与自作聪明生成后续内容。" }
-      ]
-    },
-    {
-      category: "Prompt 必杀结构",
-      items: [
-        { key: "角色赋予 (Persona)", desc: "明确指定语言专家、安全审计师或算法竞赛选手角色。" },
-        { key: "类型契约 (Type Hint)", desc: "必须给出输入/输出参数的具体类型与数据结构 Schema。" },
-        { key: "边界规范 (Edge Cases)", desc: "显式列出：空值/空数组/越界/负数/并发冲突的处理约定。" },
-        { key: "负向约束 (Negative Prompts)", desc: "明确声明：严禁使用废弃 API、严禁引入第三方未经许可库。" }
-      ]
-    },
-    {
-      category: "调试与纠错循环 (Self-Healing)",
-      items: [
-        { key: "回传完整 Traceback", desc: "包含执行命令、操作系统环境、完整异常栈及上一版有问题的片段。" },
-        { key: "最小差异更新 (Diff-only)", desc: "要求模型仅返回 Patch 补丁或被修改函数，节省上下文并减少引入新 Bug 概率。" },
-        { key: "Step-by-Step 慢思考", desc: "在复杂场景中要求模型先写出 1-2-3 逻辑推理步骤，再输出正式代码。" }
-      ]
-    }
-  ]
+  cheatSheet: {
+    zh: [
+      {
+        category: "超参数调优秘籍",
+        items: [
+          { key: "Temperature = 0.0 ~ 0.1", desc: "生产代码生成、修复 Bug、单测用例。绝对确定性与最高准确率。" },
+          { key: "Temperature = 0.6 ~ 0.8", desc: "架构选型头脑风暴、多种算法方案探讨、寻找替代方案。" },
+          { key: "Top_p = 0.1", desc: "极致收缩采样核，彻底消除罕见无效语法 Token。" },
+          { key: "Stop: [\"\\n\\n\", \"def \", \"class \"]", desc: "精准阻断模型多余发挥与自作聪明生成后续内容。" }
+        ]
+      },
+      {
+        category: "Prompt 必杀结构",
+        items: [
+          { key: "角色赋予 (Persona)", desc: "明确指定语言专家、安全审计师或算法竞赛选手角色。" },
+          { key: "类型契约 (Type Hint)", desc: "必须给出输入/输出参数的具体类型与数据结构 Schema。" },
+          { key: "边界规范 (Edge Cases)", desc: "显式列出：空值/空数组/越界/负数/并发冲突的处理约定。" },
+          { key: "负向约束 (Negative Prompts)", desc: "明确声明：严禁使用废弃 API、严禁引入第三方未经许可库。" }
+        ]
+      },
+      {
+        category: "调试与纠错循环 (Self-Healing)",
+        items: [
+          { key: "回传完整 Traceback", desc: "包含执行命令、操作系统环境、完整异常栈及上一版有问题的片段。" },
+          { key: "最小差异更新 (Diff-only)", desc: "要求模型仅返回 Patch 补丁或被修改函数，节省上下文并减少引入新 Bug 概率。" },
+          { key: "Step-by-Step 慢思考", desc: "在复杂场景中要求模型先写出 1-2-3 逻辑推理步骤，再输出正式代码。" }
+        ]
+      }
+    ],
+    en: [
+      {
+        category: "Hyperparameter Recipes",
+        items: [
+          { key: "Temperature = 0.0 ~ 0.1", desc: "Production code, bug fixing, test cases. Maximum determinism and compliance." },
+          { key: "Temperature = 0.6 ~ 0.8", desc: "Architectural brainstorming, multiple algorithmic proposals." },
+          { key: "Top_p = 0.1", desc: "Aggressive nucleus truncation, eliminating rare hallucinated tokens." },
+          { key: "Stop: [\"\\n\\n\", \"def \", \"class \"]", desc: "Surgically cuts off hallucinated subsequent scopes." }
+        ]
+      },
+      {
+        category: "Essential Prompt Anatomy",
+        items: [
+          { key: "Persona Definition", desc: "Assign specialized role: staff engineer, security auditor, or algorithmic researcher." },
+          { key: "Type Contracts", desc: "Always supply explicit input/output type annotations and schemas." },
+          { key: "Edge Case Guardrails", desc: "Specify handling for empty collections, boundary overflows, and null values." },
+          { key: "Negative Constraints", desc: "Forbid unverified third-party libraries and deprecated runtime methods." }
+        ]
+      },
+      {
+        category: "Debugging & Self-Healing",
+        items: [
+          { key: "Full Traceback Injection", desc: "Provide operating environment, command, stdout, and full exception traceback." },
+          { key: "Surgical Diff Updates", desc: "Instruct the model to return git-diffs or patched functions only." },
+          { key: "Chain-of-Thought First", desc: "Demand step-by-step reasoning plan prior to generating code." }
+        ]
+      }
+    ]
+  }
 };
 
-// 如果在 Node 环境（测试/构建环境），导出数据
+// 如果在 Node 环境，导出数据
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = CODEX_DATA;
 }
